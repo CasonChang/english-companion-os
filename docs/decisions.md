@@ -13,4 +13,12 @@ Each decision should include:
 - **Decision:** the approach selected
 - **Consequences:** important trade-offs or follow-up work
 
-No deviations have been recorded yet.
+## 2026-08-10 — Hard-rating half intervals
+
+- **Context:** The SRS contract says Hard keeps the current level and uses half
+  its interval, but does not specify how fractional days are rounded.
+- **Decision:** Round half intervals up to the next whole day, with a minimum of
+  one day. Level 0 also remains due in one day.
+- **Consequences:** A level-3 Hard rating uses four days (half of seven rounded
+  up), avoiding an unintentionally harsher three-day interval. SQL tests lock in
+  this behavior.
