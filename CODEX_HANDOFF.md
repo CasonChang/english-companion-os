@@ -50,6 +50,14 @@ Hermes agent ──service-role key──► Supabase (Postgres + Auth + RLS)
 | Hermes skill spec + secrets | §L |
 | Persona rules | §M, `shared/persona.md` |
 | ChatGPT prompt | `prompts/english-coach-project-prompt.md` |
+| Env vars & secrets (all three environments) | `docs/ENVIRONMENT.md` |
+
+**Credentials.** All environment variables you can rely on (Supabase URL/keys,
+DB access for migrations, `ECOS_USER_ID`, Telegram bot token) are provisioned in
+the Codex and Hermes environments per `docs/ENVIRONMENT.md`. If a value you need
+is missing, **ask the user for it** — do not invent it, and do not commit any
+secret. Per-user app data (agent name, timezone, chat ID, etc.) is not an env var:
+ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
