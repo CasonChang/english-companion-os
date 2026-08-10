@@ -22,6 +22,7 @@ If you are an AI coding agent (Codex Cloud, Claude Code, etc.) starting work in 
 | `docs/MASTER_PLAN.md` | The full product / architecture / UX / data specification (sections A–R) |
 | `CODEX_HANDOFF.md` | Standalone onboarding + task breakdown for implementation agents |
 | `prompts/english-coach-project-prompt.md` | Production prompt to paste into the ChatGPT Project instructions |
+| `prompts/recover-current-session-json.md` | One-time prompt for exporting a conversation that happened before setup |
 | `apps/dashboard/` | (Phase 2+) React + Vite dashboard, deployed to GitHub Pages |
 | `supabase/` | (Phase 1+) SQL migrations, RLS policies, seed data |
 | `hermes/` | (Phase 3+) Hermes English Learning skill: ingestion, reviews, reports |
