@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 1 implementation is complete; Phase 2 Dashboard T2.1 is next.** Applying the migrations to the user's hosted Supabase project remains a user-facing checkpoint. The remaining external Phase 0 acceptance check is for the user to produce one real ChatGPT Project session export and validate it. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 2 Dashboard is in progress; T2.2 is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -89,7 +89,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ### Phase 2 — Dashboard MVP
 
-- **T2.1 — Scaffold + auth.** Vite app, Tailwind, HashRouter, supabase client from env, login page, session persistence, logout, route guard. *Accept:* wrong password errors gracefully; refresh stays logged in; logged-out users see only the login screen and no data requests fire.
+- **T2.1 — Scaffold + auth.** ✅ Complete. Vite app, Tailwind, HashRouter, supabase client from env, login page, session persistence, logout, route guard. *Accept:* wrong password errors gracefully; refresh stays logged in; logged-out users see only the login screen and no data requests fire.
 - **T2.2 — Layout shell.** Responsive nav (bottom tabs ≤768 px / sidebar above), page skeletons, loading + empty states, dark mode via `prefers-color-scheme`. *Accept:* matches §I nav spec at 360 px and 1280 px.
 - **T2.3 — Home.** Stat row (week minutes, sessions, weekly streak, due count), focus card, last-session card, 8-week mini chart, review CTA. *Accept:* numbers match seed data hand-computation.
 - **T2.4 — Sessions list + detail.** Per §I. *Accept:* all §F content renders; deep link `#/sessions/:id` works after refresh.
