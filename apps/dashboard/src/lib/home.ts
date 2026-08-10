@@ -23,8 +23,8 @@ export type HomeData = {
   dueCount: number;
   latestSession: LatestSession | null;
   weeklyActivity: WeeklyActivity[];
-  weekMinutes: number;
   weekSessions: number;
+  weekItems: number;
   weeklyStreak: number;
 };
 
@@ -56,8 +56,8 @@ export async function loadHomeData(): Promise<HomeData> {
     dueCount: dueResult.count ?? 0,
     latestSession: sessionResult.data as LatestSession | null,
     weeklyActivity: [...activity].reverse(),
-    weekMinutes: thisWeek?.total_minutes ?? 0,
     weekSessions: thisWeek?.session_count ?? 0,
+    weekItems: thisWeek?.new_items ?? 0,
     weeklyStreak: calculateWeeklyStreak(activity)
   };
 }

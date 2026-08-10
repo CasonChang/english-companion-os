@@ -33,7 +33,7 @@ export function DashboardPage() {
       <PageHeader eyebrow="Today" title={`Hi, I’m ${data.agentName}`} description={data.dueCount ? `${data.dueCount} item${data.dueCount === 1 ? "" : "s"} due — got five minutes?` : "You’re all caught up. Nice work."}/>
 
       <section className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCard label="This week" value={data.weekMinutes} suffix="min"/>
+        <StatCard label="New items" value={data.weekItems}/>
         <StatCard label="Sessions" value={data.weekSessions}/>
         <StatCard label="Weekly streak" value={data.weeklyStreak} suffix="wk"/>
         <StatCard label="Due today" value={data.dueCount}/>
@@ -47,16 +47,16 @@ export function DashboardPage() {
         </article>
 
         <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
-          <div className="flex items-center justify-between"><p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-mint">Last session</p>{latest && <span className="text-xs text-slate-400">{formatDate(latest.session_date)}{latest.duration_minutes ? ` · ${latest.duration_minutes} min` : ""}</span>}</div>
+          <div className="flex items-center justify-between"><p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-mint">Last session</p>{latest && <span className="text-xs text-slate-400">{formatDate(latest.session_date)}</span>}</div>
           {latest ? <><h2 className="mt-5 line-clamp-1 text-xl font-semibold">{latest.topics.join(" · ")}</h2><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{latest.summary}</p><Link to={`/sessions/${latest.id}`} className="mt-4 inline-flex text-sm font-semibold text-emerald-700 hover:underline dark:text-mint">Open session →</Link></> : <p className="mt-5 text-sm text-slate-500">Your first saved conversation will appear here.</p>}
         </article>
       </section>
 
       <section className="mt-4 grid gap-4 lg:grid-cols-[1fr_auto]">
         <article className="min-w-0 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
-          <div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">8-week activity</p><h2 className="mt-1 font-semibold">Speaking minutes</h2></div><span className="text-xs text-slate-400">Minutes / week</span></div>
+          <div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">8-week activity</p><h2 className="mt-1 font-semibold">Practice sessions</h2></div><span className="text-xs text-slate-400">Sessions / week</span></div>
           <div className="mt-5 h-40 min-w-[280px]" aria-label="Eight week speaking activity chart">
-            <ResponsiveContainer width="100%" height="100%"><BarChart data={data.weeklyActivity}><XAxis dataKey="week_start" tickFormatter={(value: string) => formatDate(value)} tickLine={false} axisLine={false} fontSize={11}/><Tooltip cursor={{ fill: "rgba(159,227,195,.16)" }} labelFormatter={(value) => `Week of ${formatDate(String(value))}`}/><Bar dataKey="total_minutes" fill="#75cfa8" radius={[6,6,0,0]}/></BarChart></ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%"><BarChart data={data.weeklyActivity}><XAxis dataKey="week_start" tickFormatter={(value: string) => formatDate(value)} tickLine={false} axisLine={false} fontSize={11}/><Tooltip cursor={{ fill: "rgba(159,227,195,.16)" }} labelFormatter={(value) => `Week of ${formatDate(String(value))}`}/><Bar dataKey="session_count" fill="#75cfa8" radius={[6,6,0,0]}/></BarChart></ResponsiveContainer>
           </div>
         </article>
 
