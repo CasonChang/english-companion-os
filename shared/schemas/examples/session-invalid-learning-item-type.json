@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "session_date": "2026-08-10",
+  "session_start_time": null,
+  "duration_minutes": null,
+  "topics": ["weekend plans"],
+  "session_summary": "We discussed plans for the weekend.",
+  "learning_items": [
+    {
+      "type": "slang",
+      "text": "chill out",
+      "meaning": "to relax",
+      "example": "I want to chill out this weekend.",
+      "note": null,
+      "importance": "medium"
+    }
+  ],
+  "corrections": [],
+  "recurring_mistakes": [],
+  "pronunciation_notes": [],
+  "shadowing": [],
+  "next_session_focus": null,
+  "memory_candidates": []
+}

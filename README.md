@@ -6,7 +6,10 @@ A personal English speaking companion system built around three cooperating part
 2. **Hermes Agent + Supabase** — structured learning memory: every practice session is exported as JSON, validated and ingested by the Hermes agent into Supabase (the source of truth), which also drives scheduled Telegram reviews.
 3. **Dashboard (GitHub Pages)** — a private, login-protected personal learning dashboard and lightweight interactive review app, deployed as a static site via GitHub Actions.
 
-> **Status: planning phase.** No production code exists yet. The complete specification lives in [`docs/MASTER_PLAN.md`](docs/MASTER_PLAN.md).
+> **Status: Phase 0 — specification materialization.** Repository scaffolding is
+> in place and the implementation sequence is tracked in
+> [`CODEX_HANDOFF.md`](CODEX_HANDOFF.md). The complete specification lives in
+> [`docs/MASTER_PLAN.md`](docs/MASTER_PLAN.md).
 
 ## For coding agents
 

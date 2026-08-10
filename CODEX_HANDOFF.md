@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 0 (specification materialization) is next.** Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 0 (specification materialization) is in progress; T0.3 is next.** Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -75,8 +75,8 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ### Phase 0 — Specification materialization
 
-- **T0.1 — Repo scaffolding.** Create the §O directory skeleton, `.gitignore` (node, dist, `.env*`), `docs/decisions.md` stub. *Accept:* tree matches §O; `git status` clean of generated files.
-- **T0.2 — `session.schema.json`.** Write the formal JSON Schema (draft 2020-12) from §F, plus `shared/schemas/examples/session-valid.json` (the §F example) and ≥3 invalid fixtures (missing required key, bad enum, wrong type). Add a tiny npm script `validate:examples` using Ajv. *Accept:* valid fixture passes; each invalid fixture fails for its documented reason.
+- **T0.1 — Repo scaffolding.** ✅ Complete. Create the §O directory skeleton, `.gitignore` (node, dist, `.env*`), `docs/decisions.md` stub. *Accept:* tree matches §O; `git status` clean of generated files.
+- **T0.2 — `session.schema.json`.** ✅ Complete. Write the formal JSON Schema (draft 2020-12) from §F, plus `shared/schemas/examples/session-valid.json` (the §F example) and ≥3 invalid fixtures (missing required key, bad enum, wrong type). Add a tiny npm script `validate:examples` using Ajv. *Accept:* valid fixture passes; each invalid fixture fails for its documented reason.
 - **T0.3 — Docs split.** Derive `docs/architecture.md`, `docs/data-model.md`, `docs/security.md` from the plan (condensed, implementation-facing). *Accept:* no contradictions with MASTER_PLAN; each ≤ ~200 lines.
 - **T0.4 — `shared/persona.md`.** ✅ Already done during planning: a **name-less, person-less personality template** — a real-person-style chat friend, not a tool-using assistant. Do not rewrite; treat as a contract file per §3. The agent's **name is not in this file** — it is per-user in `user_settings.agent_name`, written into Supabase at setup. Never add a fixed name, assistant/agent traits, or personal facts about any user to the template.
 

@@ -1,0 +1,12 @@
+{
+  "name": "english-companion-os",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate:examples": "node scripts/validate-session-examples.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  }
+}
