@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 1 (data foundation) is in progress; T1.3 is next.** The remaining external Phase 0 acceptance check is for the user to produce one real ChatGPT Project session export and validate it. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 1 (data foundation) is in progress; T1.4 is next.** The remaining external Phase 0 acceptance check is for the user to produce one real ChatGPT Project session export and validate it. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -84,7 +84,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 - **T1.1 — Core tables migration.** ✅ Complete. `sessions`, `learning_items`, `session_learning_items`, `mistake_events`, `review_events`, `weekly_reports`, `user_settings` exactly per §G (columns, PKs, FKs, uniques, indexes, CHECKs). *Accept:* applies cleanly to a fresh project; re-apply is idempotent-safe (migration tool guards).
 - **T1.2 — Views + SRS function.** ✅ Complete. `v_weekly_activity`, `v_mistake_category_stats`, `v_due_reviews`; `apply_review_rating(item_id uuid, rating text)` implementing the §K ladder as `security definer` with an `auth.uid()` ownership check. *Accept:* unit-style SQL tests in `supabase/tests.sql` demonstrate each rating transition (again/hard/good/easy, mastery at level 5 + 2×good).
-- **T1.3 — RLS policies.** Enable RLS everywhere; per-§G policies (authenticated select own rows; web insert on `review_events`; settings update; nothing for anon). *Accept:* documented psql checks showing anon reads return zero rows on every table and cross-user reads return nothing.
+- **T1.3 — RLS policies.** ✅ Complete. Enable RLS everywhere; per-§G policies (authenticated select own rows; web insert on `review_events`; settings update; nothing for anon). *Accept:* documented psql checks showing anon reads return zero rows on every table and cross-user reads return nothing.
 - **T1.4 — Seed + setup guide.** `dev-seed.sql` with ~4 realistic sessions / ~25 items / ~20 mistakes / some reviews spread over 6 weeks; `supabase/README.md` walkthrough (create project → run migrations → create the single user → disable signups → insert `user_settings` row). *Accept:* a human following the README reaches a working, secured database.
 
 ### Phase 2 — Dashboard MVP
