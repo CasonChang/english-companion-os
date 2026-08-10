@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "session_date": "2026-08-10",
+  "session_start_time": "21:15",
+  "duration_minutes": 35,
+  "topics": ["swimming", "weekend plans", "work stress"],
+  "session_summary": "We caught up about the weekend and the open-water swim on Saturday. You described the race conditions in good detail and we worked on past-tense narration. We also talked about a stressful project deadline and practiced softer ways to complain about work.",
+  "learning_items": [
+    {
+      "type": "phrasal_verb",
+      "text": "follow through",
+      "meaning": "to actually complete something you said you would do",
+      "example": "I signed up for the race, so now I have to follow through.",
+      "note": "often 'follow through on/with something'",
+      "importance": "high"
+    },
+    {
+      "type": "natural_expression",
+      "text": "I'm swamped",
+      "meaning": "a natural way to say you are extremely busy",
+      "example": "Sorry I didn't reply — I've been swamped at work this week.",
+      "note": "casual; fine with colleagues, avoid in formal writing",
+      "importance": "medium"
+    },
+    {
+      "type": "collocation",
+      "text": "meet a deadline",
+      "meaning": "to finish work by the required time",
+      "example": "We barely met the deadline on Friday.",
+      "note": "'meet' not 'catch' or 'reach' a deadline",
+      "importance": "medium"
+    },
+    {
+      "type": "idiom",
+      "text": "second wind",
+      "meaning": "a new burst of energy after feeling tired",
+      "example": "Halfway through the swim I got my second wind.",
+      "note": null,
+      "importance": "low"
+    }
+  ],
+  "corrections": [
+    {
+      "original": "I went to swimming pool yesterday morning.",
+      "corrected": "I went to the swimming pool yesterday morning.",
+      "explanation": "Specific known places need 'the'.",
+      "category": "articles"
+    },
+    {
+      "original": "The water have many waves.",
+      "corrected": "The water was really choppy.",
+      "explanation": "'Choppy' is the natural word, and 'water' takes a singular verb.",
+      "category": "unnatural_phrasing"
+    },
+    {
+      "original": "I didn't went to the office on Friday.",
+      "corrected": "I didn't go to the office on Friday.",
+      "explanation": "After 'didn't', use the base verb.",
+      "category": "verb_tense"
+    }
+  ],
+  "recurring_mistakes": [
+    {
+      "category": "articles",
+      "description": "Dropping 'the' before specific places (pool, office, gym).",
+      "examples": ["I went to swimming pool", "I'm at office now"]
+    }
+  ],
+  "pronunciation_notes": [
+    {
+      "word_or_sound": "choppy",
+      "note": "First vowel is /ɑ/ as in 'hot', not /oʊ/."
+    }
+  ],
+  "shadowing": [
+    "I signed up for the race, so now I have to follow through.",
+    "The water was really choppy, but I got my second wind halfway.",
+    "I've been swamped, but we barely met the deadline."
+  ],
+  "next_session_focus": "Past-tense narration of a full story without switching to present tense.",
+  "memory_candidates": [
+    "Did an open-water swim race on 2026-08-08 and wants to do a longer one in October."
+  ]
+}
