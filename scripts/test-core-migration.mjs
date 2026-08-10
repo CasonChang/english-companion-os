@@ -12,12 +12,19 @@ const viewsMigrationUrl = new URL(
   import.meta.url
 );
 const testsUrl = new URL("../supabase/tests.sql", import.meta.url);
+const rlsMigrationUrl = new URL(
+  "../supabase/migrations/202608100003_rls.sql",
+  import.meta.url
+);
+const rlsTestsUrl = new URL("../supabase/rls-tests.sql", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
   "-- pgcrypto is already provided by the Supabase runtime"
 );
 const viewsMigration = await readFile(viewsMigrationUrl, "utf8");
 const tests = await readFile(testsUrl, "utf8");
+const rlsMigration = await readFile(rlsMigrationUrl, "utf8");
+const rlsTests = await readFile(rlsTestsUrl, "utf8");
 
 const db = new PGlite();
 
@@ -25,6 +32,7 @@ try {
   await db.exec(`
     create schema auth;
     create table auth.users (id uuid primary key);
+    create role anon;
     create role authenticated;
     create function auth.uid() returns uuid language sql stable as $$
       select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
@@ -34,6 +42,8 @@ try {
   await db.exec(coreMigration);
   await db.exec(viewsMigration);
   await db.exec(viewsMigration);
+  await db.exec(rlsMigration);
+  await db.exec(rlsMigration);
 
   const expectedTables = [
     "learning_items",
@@ -67,7 +77,8 @@ try {
     ["v_due_reviews", "v_mistake_category_stats", "v_weekly_activity"]
   );
   await db.exec(tests);
-  console.log("PASS migrations applied twice; seven tables, views, and SRS transitions verified");
+  await db.exec(rlsTests);
+  console.log("PASS migrations, views, SRS transitions, and RLS isolation verified");
 } finally {
   await db.close();
 }
