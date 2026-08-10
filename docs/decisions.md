@@ -22,3 +22,15 @@ Each decision should include:
 - **Consequences:** A level-3 Hard rating uses four days (half of seven rounded
   up), avoiding an unintentionally harsher three-day interval. SQL tests lock in
   this behavior.
+
+## 2026-08-10 — Do not estimate GPT-Live speaking minutes
+
+- **Context:** GPT-Live session exports do not reliably expose elapsed time, and
+  the saved JSON does not contain the full transcript needed for a defensible
+  word-count estimate.
+- **Decision:** Keep `duration_minutes` nullable for future reliable sources, but
+  do not guess it and do not show a minutes-based KPI when it is unknown. The
+  Dashboard Home uses new items and session counts instead.
+- **Consequences:** Progress reflects observable practice frequency and learning
+  output. A future transcript-aware ingest may add measured/derived duration only
+  if it records how the value was obtained.

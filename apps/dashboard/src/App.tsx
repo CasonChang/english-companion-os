@@ -5,6 +5,8 @@ import { ProtectedRoute } from "./features/auth/ProtectedRoute";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { SessionDetailPage } from "./pages/SessionDetailPage";
+import { SessionsPage } from "./pages/SessionsPage";
 
 export function App() {
   return (
@@ -13,7 +15,8 @@ export function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppShell />}>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/sessions" element={<PlaceholderPage kind="sessions" />} />
+          <Route path="/sessions" element={<SessionsPage />} />
+          <Route path="/sessions/:id" element={<SessionDetailPage />} />
           <Route path="/items" element={<PlaceholderPage kind="items" />} />
           <Route path="/mistakes" element={<PlaceholderPage kind="mistakes" />} />
           <Route path="/progress" element={<PlaceholderPage kind="progress" />} />
