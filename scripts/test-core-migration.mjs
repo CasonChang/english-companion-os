@@ -17,6 +17,7 @@ const rlsMigrationUrl = new URL(
   import.meta.url
 );
 const rlsTestsUrl = new URL("../supabase/rls-tests.sql", import.meta.url);
+const seedUrl = new URL("../supabase/seed/dev-seed.sql", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
   "-- pgcrypto is already provided by the Supabase runtime"
@@ -25,6 +26,7 @@ const viewsMigration = await readFile(viewsMigrationUrl, "utf8");
 const tests = await readFile(testsUrl, "utf8");
 const rlsMigration = await readFile(rlsMigrationUrl, "utf8");
 const rlsTests = await readFile(rlsTestsUrl, "utf8");
+const seed = await readFile(seedUrl, "utf8");
 
 const db = new PGlite();
 
@@ -78,7 +80,27 @@ try {
   );
   await db.exec(tests);
   await db.exec(rlsTests);
-  console.log("PASS migrations, views, SRS transitions, and RLS isolation verified");
+  await db.exec(`
+    insert into auth.users (id)
+    values ('00000000-0000-0000-0000-000000000001')
+    on conflict (id) do nothing
+  `);
+  await db.exec(seed);
+  await db.exec(seed);
+  const seedCounts = await db.query(`
+    select
+      (select count(*)::integer from public.sessions) as sessions,
+      (select count(*)::integer from public.learning_items) as learning_items,
+      (select count(*)::integer from public.mistake_events) as mistakes,
+      (select count(*)::integer from public.review_events) as reviews
+  `);
+  assert.deepEqual(seedCounts.rows[0], {
+    sessions: 4,
+    learning_items: 25,
+    mistakes: 20,
+    reviews: 10
+  });
+  console.log("PASS migrations, SRS, RLS, and idempotent 4-session seed verified");
 } finally {
   await db.close();
 }
