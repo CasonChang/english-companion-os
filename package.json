@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:migration": "node scripts/test-core-migration.mjs",
     "validate:examples": "node scripts/validate-session-examples.mjs"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.3.10",
     "ajv": "^8.17.1"
   }
 }
