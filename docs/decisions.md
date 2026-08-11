@@ -40,3 +40,10 @@ Each decision should include:
 - Traditional Chinese (`zh-TW`) is the default Dashboard interface language.
 - A persistent 繁中 / EN switch is available on both login and authenticated layouts.
 - Learning content remains in its stored language; only product interface copy is translated.
+
+## 2026-08-11 — Hermes integration uses a user plugin
+
+- Do not patch the read-only bundled Telegram adapter under `/opt/hermes`.
+- Register `ingest_english_session` through Hermes' general user-plugin API.
+- Install under `~/.hermes/plugins/english-companion-os/` and explicitly enable
+  the plugin; Telegram attachment/text intent is supplied by its bundled skill.
