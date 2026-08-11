@@ -33,3 +33,9 @@ refreshes work on GitHub Pages.
 - Rejected credentials show a generic friendly message.
 - Authenticated users are returned to their originally requested protected route.
 - Signing out clears the Supabase session and returns the app to login.
+
+## Language
+
+The interface defaults to Traditional Chinese and offers a persistent 繁中 / EN
+switch on the login screen and app shell. The preference is stored only in the
+browser (`localStorage`); it does not change or translate saved learning data.

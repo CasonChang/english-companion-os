@@ -1,5 +1,6 @@
 import { EmptyState } from "../components/EmptyState";
 import { PageHeader } from "../components/PageHeader";
+import { useI18n } from "../features/i18n/I18nProvider";
 
 const copy = {
   sessions: ["Sessions", "Your conversations, summaries, corrections, and shadowing in one place.", "Your first session is ready to appear here."],
@@ -14,6 +15,7 @@ const copy = {
 export type PlaceholderKind = keyof typeof copy;
 
 export function PlaceholderPage({ kind }: { kind: PlaceholderKind }) {
+  const { t } = useI18n();
   const [title, description, empty] = copy[kind];
-  return <><PageHeader eyebrow="Your learning" title={title} description={description}/>{kind === "more" ? <div className="mt-7 grid gap-3 sm:grid-cols-3">{[["Mistakes","#/mistakes"],["Progress","#/progress"],["Weekly","#/weekly"]].map(([label,href])=><a key={label} href={href} className="rounded-2xl border border-slate-200 bg-white p-5 font-semibold shadow-sm transition hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5">{label}<span className="float-right text-slate-400">→</span></a>)}</div> : <EmptyState title={empty} description="This page shell is ready; live Supabase content is the next step."/>}</>;
+  return <><PageHeader eyebrow="Your learning" title={t(title)} description={description}/>{kind === "more" ? <div className="mt-7 grid gap-3 sm:grid-cols-3">{[["Mistakes","#/mistakes"],["Progress","#/progress"],["Weekly","#/weekly"]].map(([label,href])=><a key={label} href={href} className="rounded-2xl border border-slate-200 bg-white p-5 font-semibold shadow-sm transition hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5">{t(label)}<span className="float-right text-slate-400">→</span></a>)}</div> : <EmptyState title={empty} description="This page shell is ready; live Supabase content is the next step."/>}</>;
 }

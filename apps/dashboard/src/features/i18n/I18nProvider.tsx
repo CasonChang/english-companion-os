@@ -1,0 +1,16 @@
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+export type Locale = "zh-TW" | "en";
+type I18n = { locale: Locale; setLocale: (locale: Locale) => void; t: (english: string) => string };
+const zh: Record<string, string> = {
+  Home:"首頁", Sessions:"學習紀錄", Items:"學習項目", Mistakes:"常見錯誤", Progress:"學習進度", Review:"複習", Weekly:"週報", More:"更多",
+  "Sign out":"登出", "Signed in":"已登入", "Primary navigation":"主要導覽", "Mobile navigation":"行動版導覽",
+  Today:"今天", "Welcome back":"歡迎回來", "Loading your space…":"正在載入你的學習空間…", "New items":"新增項目", "Weekly streak":"連續學習週數", "Due today":"今日到期", "Current focus":"目前重點", "Last session":"上次練習", "Open session →":"開啟紀錄 →", "8-week activity":"近 8 週活動", "Practice sessions":"練習次數", "Sessions / week":"每週次數", "Daily review":"每日複習", "items waiting":"個項目待複習", "Start review":"開始複習", "View review":"查看複習",
+  "Conversation archive":"對話紀錄", "Every saved conversation, with the useful language and patterns that came from it.":"每一段保存的對話，以及從中整理出的實用英文與語言模式。", "No sessions yet":"還沒有學習紀錄", "Go practice with your companion, then save the session JSON.":"先和你的英文夥伴練習，再保存這次對話的 JSON。",
+  "Your collection":"你的收藏", "Learning items":"學習項目", "The words, expressions, and patterns worth bringing into your own English.":"值得真正用進自己英文裡的單字、表達方式與句型。", "Search text or meaning…":"搜尋英文或意思…", "All types":"所有類型", "All status":"所有狀態", Active:"學習中", Mastered:"已掌握", Archived:"已封存", "No learning items yet":"還沒有學習項目", "No matching items":"找不到符合的項目",
+  "Patterns over time":"長期模式", "Not a scorecard — a practical map of what deserves another chance in conversation.":"這不是成績單，而是一張告訴你哪些地方值得再練一次的地圖。", "No mistake patterns yet":"還沒有錯誤模式", Improving:"正在改善", Flat:"持平", Growing:"增加中",
+  "Last 12 weeks":"近 12 週", "Four signals that help you decide what to practice next.":"四個能幫助你決定下一步練什麼的指標。", "Practice frequency":"練習頻率", "Am I practicing enough? (sessions per week)":"我的練習量夠嗎？（每週對話次數）", "Review completion":"複習完成度", "Am I retaining? Completed reviews versus currently scheduled due dates.":"我有記住嗎？比較已完成複習與目前排定的到期項目。", "Mistake trend":"錯誤趨勢", "Are my most common mistake categories improving?":"最常見的錯誤類型有改善嗎？", "Mastered collection":"已掌握項目", "Is the collection growing into knowledge?":"收藏的內容有逐漸變成真正掌握的知識嗎？",
+  "Your private learning space":"你的私人學習空間", "Welcome back.":"歡迎回來。", "Sign in to continue":"登入後繼續", Email:"電子郵件", Password:"密碼", "Sign in":"登入", "Signing in…":"登入中…", "Your English,":"你的英文，", "growing with you.":"陪你一起成長。", "A quiet home for every conversation, useful expression, and small win along the way.":"把每次對話、實用表達和一路上的小進步，都好好收藏在這裡。", "Private by design · Built around your real conversations":"以隱私為核心 · 圍繞你的真實對話打造"
+};
+const Context = createContext<I18n>({ locale: "en", setLocale: () => undefined, t: (text) => text });
+export function I18nProvider({ children }: { children: ReactNode }) { const [locale,setLocale] = useState<Locale>(() => localStorage.getItem("ecos-locale") === "en" ? "en" : "zh-TW"); useEffect(() => { localStorage.setItem("ecos-locale", locale); document.documentElement.lang = locale; }, [locale]); const value=useMemo(() => ({ locale,setLocale,t:(text:string)=>locale === "zh-TW" ? zh[text] ?? text : text }),[locale]); return <Context.Provider value={value}>{children}</Context.Provider>; }
+export function useI18n() { return useContext(Context); }
