@@ -1,5 +1,11 @@
 # Dashboard
 
+Production: <https://casonchang.github.io/english-companion-os/>
+
+Pushes to `main` that touch this app run tests, build, and deploy through
+`.github/workflows/deploy-dashboard.yml`. The build reads its public Supabase
+configuration from GitHub Actions repository variables.
+
 Private React dashboard for English Companion OS. It is built as a static SPA
 for GitHub Pages and uses Supabase Auth plus RLS for access control.
 
