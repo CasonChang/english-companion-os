@@ -47,3 +47,10 @@ Each decision should include:
 - Register `ingest_english_session` through Hermes' general user-plugin API.
 - Install under `~/.hermes/plugins/english-companion-os/` and explicitly enable
   the plugin; Telegram attachment/text intent is supplied by its bundled skill.
+
+## 2026-08-11 — Hermes skill packages its runtime schema
+
+- `shared/schemas/session.schema.json` remains canonical in the monorepo.
+- The Hermes package carries an identical `schema/session.schema.json` runtime
+  copy so `/opt/data/skills/english-learning/dist/cli.js` is independently
+  deployable; a unit test prevents drift between the two copies.

@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 2 Dashboard is complete; Phase 3 Hermes ingestion is in progress; T3.3 wiring is ready for a real Hermes round-trip.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 2 Dashboard is complete; Phase 3 Hermes ingestion is complete; Phase 4 Telegram review is next (T4.1).** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -102,7 +102,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 - **T3.1 — Skill package + validation.** ✅ Complete. Package scaffold, Ajv validation (shared schema), semantic checks, human-readable error formatter. *Accept:* fixtures produce the exact expected accept/reject outcomes with friendly messages.
 - **T3.2 — Transactional ingest.** ✅ Complete. §G mapping (session insert, item dedupe/upsert with SRS init, joins, mistake events) in one transaction; idempotency on the session unique key; confirmation-stats builder. *Accept:* Phase 3 criteria in §P (ingest, duplicate, invalid — all correct, verified via dashboard).
-- **T3.3 — Hermes wiring.** Connect ingest to Hermes' Telegram file/text intake per its native skill convention; `memory_candidates` handoff to Hermes memory; `hermes/README.md` setup guide with env/secret checklist. *Accept:* real Telegram round-trip works on the user's Hermes instance.
+- **T3.3 — Hermes wiring.** ✅ Complete. Connect ingest to Hermes' Telegram file/text intake per its native skill convention; `memory_candidates` handoff to Hermes memory; `hermes/README.md` setup guide with env/secret checklist. *Accept:* real Telegram round-trip works on the user's Hermes instance.
 
 ### Phase 4 — Telegram review
 

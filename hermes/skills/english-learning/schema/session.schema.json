@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CasonChang/english-companion-os/shared/schemas/session.schema.json",
+  "title": "English Companion session export",
+  "description": "The version 1 contract for a completed GPT-Live English practice session.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "session_date",
+    "session_start_time",
+    "duration_minutes",
+    "topics",
+    "session_summary",
+    "learning_items",
+    "corrections",
+    "recurring_mistakes",
+    "pronunciation_notes",
+    "shadowing",
+    "next_session_focus",
+    "memory_candidates"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "session_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$"
+    },
+    "session_start_time": {
+      "anyOf": [
+        { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+        { "type": "null" }
+      ]
+    },
+    "duration_minutes": {
+      "anyOf": [
+        { "type": "integer", "minimum": 1, "maximum": 240 },
+        { "type": "null" }
+      ]
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    },
+    "session_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "learning_items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/learningItem" }
+    },
+    "corrections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/correction" }
+    },
+    "recurring_mistakes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/recurringMistake" }
+    },
+    "pronunciation_notes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/pronunciationNote" }
+    },
+    "shadowing": {
+      "type": "array",
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    },
+    "next_session_focus": {
+      "anyOf": [
+        { "$ref": "#/$defs/nonEmptyString" },
+        { "type": "null" }
+      ]
+    },
+    "memory_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mistakeCategory": {
+      "type": "string",
+      "enum": [
+        "articles",
+        "verb_tense",
+        "prepositions",
+        "plurals",
+        "word_choice",
+        "word_order",
+        "subject_verb_agreement",
+        "unnatural_phrasing",
+        "pronunciation",
+        "other"
+      ]
+    },
+    "learningItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text", "meaning", "example", "note", "importance"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "vocabulary",
+            "phrase",
+            "phrasal_verb",
+            "collocation",
+            "natural_expression",
+            "idiom",
+            "pattern"
+          ]
+        },
+        "text": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "meaning": { "$ref": "#/$defs/nonEmptyString" },
+        "example": { "$ref": "#/$defs/nonEmptyString" },
+        "note": {
+          "anyOf": [{ "$ref": "#/$defs/nonEmptyString" }, { "type": "null" }]
+        },
+        "importance": {
+          "anyOf": [
+            { "type": "string", "enum": ["high", "medium", "low"] },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "correction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original", "corrected", "explanation", "category"],
+      "properties": {
+        "original": { "$ref": "#/$defs/nonEmptyString" },
+        "corrected": { "$ref": "#/$defs/nonEmptyString" },
+        "explanation": { "$ref": "#/$defs/nonEmptyString" },
+        "category": {
+          "anyOf": [{ "$ref": "#/$defs/mistakeCategory" }, { "type": "null" }]
+        }
+      }
+    },
+    "recurringMistake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "description", "examples"],
+      "properties": {
+        "category": { "$ref": "#/$defs/mistakeCategory" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "examples": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        }
+      }
+    },
+    "pronunciationNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["word_or_sound", "note"],
+      "properties": {
+        "word_or_sound": { "$ref": "#/$defs/nonEmptyString" },
+        "note": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  }
+}

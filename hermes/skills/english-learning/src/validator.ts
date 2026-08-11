@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import Ajv2020Module, { type ErrorObject } from "ajv/dist/2020.js";
 import type { SessionExport, ValidationIssue, ValidationResult } from "./types.js";
 
-const schema = JSON.parse(readFileSync(new URL("../../../../shared/schemas/session.schema.json", import.meta.url), "utf8"));
+const schema = JSON.parse(readFileSync(new URL("../schema/session.schema.json", import.meta.url), "utf8"));
 const Ajv2020 = Ajv2020Module as unknown as typeof import("ajv").default;
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 const validateSchema = ajv.compile<SessionExport>(schema);

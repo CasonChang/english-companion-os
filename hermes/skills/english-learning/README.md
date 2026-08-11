@@ -22,3 +22,10 @@ The compiled `ecos-ingest` command accepts a JSON file path or JSON on stdin and
 prints one machine-readable result line. `--confirm-date` is allowed only after
 explicit user confirmation. Use `prompts/hermes-agent-setup.md` as the
 copy-paste installation prompt for the existing Hermes instance.
+
+## Portable schema
+
+The canonical schema is mirrored at `schema/session.schema.json` so the compiled
+CLI remains self-contained when deployed outside the repository. A unit test
+requires this packaged copy to remain byte-equivalent in meaning to
+`shared/schemas/session.schema.json`.
