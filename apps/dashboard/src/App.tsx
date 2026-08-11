@@ -11,6 +11,7 @@ import { LearningItemDetailPage } from "./pages/LearningItemDetailPage";
 import { LearningItemsPage } from "./pages/LearningItemsPage";
 import { MistakeCategoryPage } from "./pages/MistakeCategoryPage";
 import { MistakesPage } from "./pages/MistakesPage";
+import { ProgressPage } from "./pages/ProgressPage";
 
 export function App() {
   return (
@@ -25,7 +26,7 @@ export function App() {
           <Route path="/items/:id" element={<LearningItemDetailPage />} />
           <Route path="/mistakes" element={<MistakesPage />} />
           <Route path="/mistakes/:category" element={<MistakeCategoryPage />} />
-          <Route path="/progress" element={<PlaceholderPage kind="progress" />} />
+          <Route path="/progress" element={<ProgressPage />} />
           <Route path="/review" element={<PlaceholderPage kind="review" />} />
           <Route path="/weekly" element={<PlaceholderPage kind="weekly" />} />
           <Route path="/more" element={<PlaceholderPage kind="more" />} />

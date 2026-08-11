@@ -1,0 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
+vi.mock("./supabase", () => ({ supabase: {} }));
+import { buildProgressWeeks } from "./progress";
+describe("buildProgressWeeks", () => { it("places activity in ISO weeks and keeps mastery cumulative", () => { const rows = buildProgressWeeks([{ week_start: "2026-08-03", session_count: 2 }], [{ created_at: "2026-08-04T09:00:00Z" }], [{ next_review_at: "2026-08-05", status: "mastered", updated_at: "2026-08-04T10:00:00Z" }], [{ category: "articles", created_at: "2026-08-04T11:00:00Z" }], new Date("2026-08-11T00:00:00Z")); const week = rows.find((row) => row.week === "2026-08-03")!; expect(week).toMatchObject({ sessions: 2, reviewsDone: 1, reviewsDue: 1, mastered: 1, mistakes: { articles: 1 } }); expect(rows[rows.length - 1]?.mastered).toBe(1); }); });
