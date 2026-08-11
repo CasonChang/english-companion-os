@@ -15,3 +15,10 @@ Copy `.env.example` into the Hermes secret store and provide all three values.
 
 - `npm test`
 - `npm run build`
+
+## Hermes wiring
+
+The compiled `ecos-ingest` command accepts a JSON file path or JSON on stdin and
+prints one machine-readable result line. `--confirm-date` is allowed only after
+explicit user confirmation. Use `prompts/hermes-agent-setup.md` as the
+copy-paste installation prompt for the existing Hermes instance.
