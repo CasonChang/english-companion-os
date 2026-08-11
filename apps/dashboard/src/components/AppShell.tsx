@@ -2,6 +2,8 @@ import { useState, type ComponentType, type SVGProps } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 import { useAuth } from "../features/auth/AuthContext";
+import { LanguageToggle } from "../features/i18n/LanguageToggle";
+import { useI18n } from "../features/i18n/I18nProvider";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 type NavItem = { label: string; to: string; icon: Icon; end?: boolean };
@@ -38,14 +40,17 @@ const mobileNav: NavItem[] = [
 ];
 
 function DesktopLink({ item }: { item: NavItem }) {
-  return <NavLink to={item.to} end={item.end} className={({ isActive }) => `group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive ? "bg-mint text-ink" : "text-slate-400 hover:bg-white/5 hover:text-white"}`}><item.icon className="h-5 w-5"/><span>{item.label}</span></NavLink>;
+  const { t } = useI18n();
+  return <NavLink to={item.to} end={item.end} className={({ isActive }) => `group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive ? "bg-mint text-ink" : "text-slate-400 hover:bg-white/5 hover:text-white"}`}><item.icon className="h-5 w-5"/><span>{t(item.label)}</span></NavLink>;
 }
 
 function MobileLink({ item }: { item: NavItem }) {
-  return <NavLink to={item.to} end={item.end} className={({ isActive }) => `flex min-w-0 flex-1 flex-col items-center gap-1 py-2 text-[0.65rem] font-semibold transition ${isActive ? "text-emerald-700 dark:text-mint" : "text-slate-400 dark:text-slate-500"}`}><item.icon className="h-5 w-5"/><span>{item.label}</span></NavLink>;
+  const { t } = useI18n();
+  return <NavLink to={item.to} end={item.end} className={({ isActive }) => `flex min-w-0 flex-1 flex-col items-center gap-1 py-2 text-[0.65rem] font-semibold transition ${isActive ? "text-emerald-700 dark:text-mint" : "text-slate-400 dark:text-slate-500"}`}><item.icon className="h-5 w-5"/><span>{t(item.label)}</span></NavLink>;
 }
 
 export function AppShell() {
+  const { t } = useI18n();
   const { session, signOut } = useAuth();
   const [signOutError, setSignOutError] = useState("");
 
@@ -64,7 +69,8 @@ export function AppShell() {
         <nav className="mt-10 space-y-1" aria-label="Primary navigation">{desktopNav.map((item) => <DesktopLink key={item.to} item={item}/>)}</nav>
         <div className="mt-auto border-t border-white/10 pt-5">
           <p className="truncate px-2 text-xs text-slate-500">{session?.user.email}</p>
-          <button onClick={handleSignOut} className="mt-3 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">Sign out</button>
+          <div className="mt-4 px-2"><LanguageToggle dark/></div>
+          <button onClick={handleSignOut} className="mt-3 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">{t("Sign out")}</button>
           {signOutError && <p className="mt-2 px-2 text-xs text-red-300" role="alert">{signOutError}</p>}
         </div>
       </aside>
@@ -72,7 +78,7 @@ export function AppShell() {
       <div className="md:pl-60">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200/70 bg-mist/90 px-5 backdrop-blur md:hidden dark:border-white/10 dark:bg-[#07101c]/90">
           <div className="flex items-center gap-2.5"><span className="grid h-9 w-9 place-items-center rounded-xl bg-ink text-mint dark:bg-mint dark:text-ink">✦</span><span className="font-semibold">English Companion</span></div>
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" aria-label="Signed in"/>
+          <LanguageToggle/>
         </header>
         <main className="mx-auto min-h-screen max-w-7xl px-4 pb-28 pt-7 sm:px-6 md:px-8 md:pb-12 md:pt-10"><Outlet/></main>
       </div>

@@ -34,3 +34,9 @@ Each decision should include:
 - **Consequences:** Progress reflects observable practice frequency and learning
   output. A future transcript-aware ingest may add measured/derived duration only
   if it records how the value was obtained.
+
+## 2026-08-11 — Dashboard language
+
+- Traditional Chinese (`zh-TW`) is the default Dashboard interface language.
+- A persistent 繁中 / EN switch is available on both login and authenticated layouts.
+- Learning content remains in its stored language; only product interface copy is translated.

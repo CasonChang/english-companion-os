@@ -2,11 +2,14 @@ import { useState, type FormEvent } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../features/auth/AuthContext";
+import { LanguageToggle } from "../features/i18n/LanguageToggle";
+import { useI18n } from "../features/i18n/I18nProvider";
 import { supabase } from "../lib/supabase";
 
 type LocationState = { from?: string };
 
 export function LoginPage() {
+  const { t, locale } = useI18n();
   const { loading, session } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +27,7 @@ export function LoginPage() {
 
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     if (signInError) {
-      setError("That email or password didn’t work. Please try again.");
+      setError(locale === "zh-TW" ? "電子郵件或密碼不正確，請再試一次。" : "That email or password didn’t work. Please try again.");
       setSubmitting(false);
       return;
     }
@@ -35,6 +38,7 @@ export function LoginPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-ink px-5 py-8 text-white sm:px-8">
+      <div className="absolute right-5 top-5 z-20"><LanguageToggle dark/></div>
       <div className="login-glow login-glow-left" />
       <div className="login-glow login-glow-right" />
       <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
@@ -44,7 +48,7 @@ export function LoginPage() {
           </p>
           <h1 className="text-balance text-6xl font-semibold leading-[1.04] tracking-[-0.045em]">
             Your English,
-            <span className="block text-coral">growing with you.</span>
+            <span className="block text-coral">{t("growing with you.")}</span>
           </h1>
           <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">
             A quiet home for every conversation, useful expression, and small win along the way.
@@ -59,13 +63,13 @@ export function LoginPage() {
           <div className="mb-8 lg:hidden">
             <div className="mb-5 grid h-12 w-12 place-items-center rounded-2xl bg-mint text-xl text-ink">✦</div>
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-mint">English Companion</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight">Welcome back.</h1>
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight">{t("Welcome back.")}</h1>
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.07] p-6 shadow-card backdrop-blur-xl sm:p-9">
             <div className="mb-8 hidden lg:block">
-              <p className="text-sm font-medium text-mint">Your private learning space</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">Welcome back</h2>
+              <p className="text-sm font-medium text-mint">{t("Your private learning space")}</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">{t("Welcome back")}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-400">Sign in to pick up where you left off.</p>
             </div>
 
@@ -106,7 +110,7 @@ export function LoginPage() {
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? "Signing in…" : "Sign in"}
+                {submitting ? t("Signing in…") : t("Sign in")}
               </button>
             </form>
 
