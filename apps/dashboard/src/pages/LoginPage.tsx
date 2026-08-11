@@ -47,15 +47,15 @@ export function LoginPage() {
             English Companion
           </p>
           <h1 className="text-balance text-6xl font-semibold leading-[1.04] tracking-[-0.045em]">
-            Your English,
+            {t("Your English,")}
             <span className="block text-coral">{t("growing with you.")}</span>
           </h1>
           <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">
-            A quiet home for every conversation, useful expression, and small win along the way.
+            {t("A quiet home for every conversation, useful expression, and small win along the way.")}
           </p>
           <div className="mt-12 flex items-center gap-4 text-sm text-slate-400">
             <span className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/5 text-xl">✦</span>
-            Private by design · Built around your real conversations
+            {t("Private by design · Built around your real conversations")}
           </div>
         </section>
 
@@ -70,12 +70,12 @@ export function LoginPage() {
             <div className="mb-8 hidden lg:block">
               <p className="text-sm font-medium text-mint">{t("Your private learning space")}</p>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight">{t("Welcome back")}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Sign in to pick up where you left off.</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">{locale === "zh-TW" ? "登入後，從上次停下的地方繼續。" : "Sign in to pick up where you left off."}</p>
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
               <label className="block text-sm font-medium text-slate-200">
-                Email
+                {t("Email")}
                 <input
                   className="field"
                   type="email"
@@ -87,7 +87,7 @@ export function LoginPage() {
                 />
               </label>
               <label className="block text-sm font-medium text-slate-200">
-                Password
+                {t("Password")}
                 <input
                   className="field"
                   type="password"
@@ -115,7 +115,7 @@ export function LoginPage() {
             </form>
 
             <p className="mt-7 text-center text-xs leading-5 text-slate-500">
-              Access is invitation-only. Your learning history stays protected by your account.
+              {locale === "zh-TW" ? "僅限受邀使用；你的學習紀錄會受到帳號保護。" : "Access is invitation-only. Your learning history stays protected by your account."}
             </p>
           </div>
         </section>
