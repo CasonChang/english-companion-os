@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 2 Dashboard is in progress; T2.6 is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 2 Dashboard is in progress; T2.7 is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -94,7 +94,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 - **T2.3 — Home.** ✅ Complete. Stat row (week minutes, sessions, weekly streak, due count), focus card, last-session card, 8-week mini chart, review CTA. *Accept:* numbers match seed data hand-computation.
 - **T2.4 — Sessions list + detail.** ✅ Complete. Per §I. *Accept:* all §F content renders; deep link `#/sessions/:id` works after refresh.
 - **T2.5 — Learning Items.** ✅ Complete. Search, type/status filters, mastery dots, detail view with occurrences + review history. *Accept:* filters compose; search covers text+meaning.
-- **T2.6 — Mistakes.** Ranked categories with trend arrows (via `v_mistake_category_stats`), category detail with evidence rows linking to sessions. *Accept:* trend arrows match view output.
+- **T2.6 — Mistakes.** ✅ Complete. Ranked categories with trend arrows (via `v_mistake_category_stats`), category detail with evidence rows linking to sessions. *Accept:* trend arrows match view output.
 - **T2.7 — Progress.** The four §I charts via Recharts, mobile-scrollable. *Accept:* charts match seed data; no other charts added.
 - **T2.8 — Pages deploy workflow.** `deploy-dashboard.yml`: build with repo-variable env, deploy on push to `main`; README badge + URL. *Accept:* live URL serves the app; hash routes survive refresh.
 
