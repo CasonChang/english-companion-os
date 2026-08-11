@@ -9,6 +9,8 @@ import { SessionDetailPage } from "./pages/SessionDetailPage";
 import { SessionsPage } from "./pages/SessionsPage";
 import { LearningItemDetailPage } from "./pages/LearningItemDetailPage";
 import { LearningItemsPage } from "./pages/LearningItemsPage";
+import { MistakeCategoryPage } from "./pages/MistakeCategoryPage";
+import { MistakesPage } from "./pages/MistakesPage";
 
 export function App() {
   return (
@@ -21,7 +23,8 @@ export function App() {
           <Route path="/sessions/:id" element={<SessionDetailPage />} />
           <Route path="/items" element={<LearningItemsPage />} />
           <Route path="/items/:id" element={<LearningItemDetailPage />} />
-          <Route path="/mistakes" element={<PlaceholderPage kind="mistakes" />} />
+          <Route path="/mistakes" element={<MistakesPage />} />
+          <Route path="/mistakes/:category" element={<MistakeCategoryPage />} />
           <Route path="/progress" element={<PlaceholderPage kind="progress" />} />
           <Route path="/review" element={<PlaceholderPage kind="review" />} />
           <Route path="/weekly" element={<PlaceholderPage kind="weekly" />} />
