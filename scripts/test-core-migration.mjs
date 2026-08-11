@@ -18,6 +18,8 @@ const rlsMigrationUrl = new URL(
 );
 const rlsTestsUrl = new URL("../supabase/rls-tests.sql", import.meta.url);
 const seedUrl = new URL("../supabase/seed/dev-seed.sql", import.meta.url);
+const ingestMigrationUrl = new URL("../supabase/migrations/202608110001_ingest_session.sql", import.meta.url);
+const sessionFixtureUrl = new URL("../shared/schemas/examples/session-valid.json", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
   "-- pgcrypto is already provided by the Supabase runtime"
@@ -27,6 +29,8 @@ const tests = await readFile(testsUrl, "utf8");
 const rlsMigration = await readFile(rlsMigrationUrl, "utf8");
 const rlsTests = await readFile(rlsTestsUrl, "utf8");
 const seed = await readFile(seedUrl, "utf8");
+const ingestMigration = await readFile(ingestMigrationUrl, "utf8");
+const sessionFixture = JSON.parse(await readFile(sessionFixtureUrl, "utf8"));
 
 const db = new PGlite();
 
@@ -36,6 +40,7 @@ try {
     create table auth.users (id uuid primary key);
     create role anon;
     create role authenticated;
+    create role service_role;
     create function auth.uid() returns uuid language sql stable as $$
       select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
     $$;
@@ -46,6 +51,8 @@ try {
   await db.exec(viewsMigration);
   await db.exec(rlsMigration);
   await db.exec(rlsMigration);
+  await db.exec(ingestMigration);
+  await db.exec(ingestMigration);
 
   const expectedTables = [
     "learning_items",
@@ -100,7 +107,21 @@ try {
     mistakes: 20,
     reviews: 10
   });
-  console.log("PASS migrations, SRS, RLS, and idempotent 4-session seed verified");
+  await db.exec(`insert into auth.users (id) values ('00000000-0000-0000-0000-000000000002')`);
+  const firstIngest = await db.query(
+    `select public.ingest_english_session($1::uuid, $2::jsonb) as result`,
+    ["00000000-0000-0000-0000-000000000002", JSON.stringify(sessionFixture)]
+  );
+  assert.equal(firstIngest.rows[0].result.duplicate, false);
+  assert.equal(firstIngest.rows[0].result.new_items, sessionFixture.learning_items.length);
+  const duplicateIngest = await db.query(
+    `select public.ingest_english_session($1::uuid, $2::jsonb) as result`,
+    ["00000000-0000-0000-0000-000000000002", JSON.stringify(sessionFixture)]
+  );
+  assert.equal(duplicateIngest.rows[0].result.duplicate, true);
+  const ingestCounts = await db.query(`select (select count(*)::integer from sessions where user_id = '00000000-0000-0000-0000-000000000002') sessions, (select count(*)::integer from learning_items where user_id = '00000000-0000-0000-0000-000000000002') items`);
+  assert.deepEqual(ingestCounts.rows[0], { sessions: 1, items: sessionFixture.learning_items.length });
+  console.log("PASS migrations, SRS, RLS, seed, and atomic idempotent ingest verified");
 } finally {
   await db.close();
 }
