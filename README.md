@@ -1,12 +1,16 @@
 # english-companion-os
 
+[![Deploy dashboard](https://github.com/CasonChang/english-companion-os/actions/workflows/deploy-dashboard.yml/badge.svg)](https://github.com/CasonChang/english-companion-os/actions/workflows/deploy-dashboard.yml)
+
+**Live dashboard:** <https://casonchang.github.io/english-companion-os/>
+
 A personal English speaking companion system built around three cooperating parts:
 
 1. **ChatGPT Project + GPT-Live** — natural spoken English practice with a long-term AI companion persona (conversational memory lives in the ChatGPT Project).
 2. **Hermes Agent + Supabase** — structured learning memory: every practice session is exported as JSON, validated and ingested by the Hermes agent into Supabase (the source of truth), which also drives scheduled Telegram reviews.
 3. **Dashboard (GitHub Pages)** — a private, login-protected personal learning dashboard and lightweight interactive review app, deployed as a static site via GitHub Actions.
 
-> **Status: Phase 1 data foundation implemented; Dashboard MVP is next.** The
+> **Status: Phase 2 Dashboard MVP is live; Hermes ingestion is next.** The
 > implementation sequence and hosted-environment checkpoints are tracked in
 > [`CODEX_HANDOFF.md`](CODEX_HANDOFF.md). The complete specification lives in
 > [`docs/MASTER_PLAN.md`](docs/MASTER_PLAN.md).
