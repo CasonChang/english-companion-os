@@ -1,0 +1,33 @@
+"""Safe subprocess bridge to the TypeScript ingestion CLI."""
+import json
+import os
+from pathlib import Path
+import subprocess
+
+_SAFE_FAILURE = {"ok": False, "message": "I couldn't process that session safely. Nothing was imported; please send the JSON again."}
+
+def ingest_english_session(params, **_kwargs):
+    file_path = params.get("file_path")
+    json_text = params.get("json_text")
+    if bool(file_path) == bool(json_text):
+        return json.dumps({"ok": False, "message": "Send exactly one JSON attachment or one pasted JSON object."})
+    cli = Path(os.environ.get("ECOS_INGEST_CLI", "/opt/data/skills/english-learning/dist/cli.js"))
+    command = ["node", str(cli)]
+    if params.get("confirmed_date") is True:
+        command.append("--confirm-date")
+    stdin = None
+    if file_path:
+        path = Path(file_path).resolve()
+        if not path.is_file() or path.suffix.lower() != ".json":
+            return json.dumps({"ok": False, "message": "I couldn't read that JSON attachment. Please upload the .json file again."})
+        command.append(str(path))
+    else:
+        stdin = str(json_text)
+    try:
+        completed = subprocess.run(command, input=stdin, text=True, capture_output=True, timeout=30, check=False)
+        result = json.loads(completed.stdout.strip())
+        if not isinstance(result, dict) or not isinstance(result.get("ok"), bool) or not isinstance(result.get("message"), str):
+            return json.dumps(_SAFE_FAILURE)
+        return json.dumps(result)
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return json.dumps(_SAFE_FAILURE)

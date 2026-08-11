@@ -1,0 +1,8 @@
+manifest_version: 1
+name: english-companion-os
+version: "0.1.0"
+description: Validate and ingest English Companion GPT-Live session JSON.
+requires_env:
+  - SUPABASE_URL
+  - SUPABASE_SERVICE_ROLE_KEY
+  - ECOS_USER_ID
