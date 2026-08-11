@@ -7,6 +7,8 @@ import { LoginPage } from "./pages/LoginPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { SessionDetailPage } from "./pages/SessionDetailPage";
 import { SessionsPage } from "./pages/SessionsPage";
+import { LearningItemDetailPage } from "./pages/LearningItemDetailPage";
+import { LearningItemsPage } from "./pages/LearningItemsPage";
 
 export function App() {
   return (
@@ -17,7 +19,8 @@ export function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/sessions" element={<SessionsPage />} />
           <Route path="/sessions/:id" element={<SessionDetailPage />} />
-          <Route path="/items" element={<PlaceholderPage kind="items" />} />
+          <Route path="/items" element={<LearningItemsPage />} />
+          <Route path="/items/:id" element={<LearningItemDetailPage />} />
           <Route path="/mistakes" element={<PlaceholderPage kind="mistakes" />} />
           <Route path="/progress" element={<PlaceholderPage kind="progress" />} />
           <Route path="/review" element={<PlaceholderPage kind="review" />} />
