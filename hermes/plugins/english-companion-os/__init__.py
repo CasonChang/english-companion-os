@@ -1,6 +1,6 @@
 """User plugin for English Companion session ingestion."""
 from pathlib import Path
-from .ecos_tool import ingest_english_session, override_review_rating, prepare_daily_review, save_review_result
+from .ecos_tool import ingest_english_session, override_review_rating, prepare_daily_review, review_schedule_tick, save_review_result, update_review_settings
 
 def register(ctx):
     schema = {
@@ -31,4 +31,8 @@ def register(ctx):
     ctx.register_tool(name="save_review_result", toolset="english_companion", schema=result_schema, handler=save_review_result)
     override_schema = {"name":"override_review_rating","description":"Override the immediately previous Telegram review rating within 15 minutes.","parameters":{"type":"object","properties":{"eventId":{"type":"string"},"rating":{"enum":["again","hard","good","easy"]}},"required":["eventId","rating"],"additionalProperties":False}}
     ctx.register_tool(name="override_review_rating", toolset="english_companion", schema=override_schema, handler=override_review_rating)
+    tick_schema = {"name":"review_schedule_tick","description":"Atomically check whether the configured daily review should fire now.","parameters":{"type":"object","properties":{},"additionalProperties":False}}
+    ctx.register_tool(name="review_schedule_tick", toolset="english_companion", schema=tick_schema, handler=review_schedule_tick)
+    settings_schema = {"name":"update_review_settings","description":"Update explicitly requested daily review settings. Omit values the user did not change.","parameters":{"type":"object","properties":{"timezone":{"type":"string"},"reviewTime":{"type":"string","pattern":"^([01]?[0-9]|2[0-3]):[0-5][0-9]$"},"enabled":{"type":"boolean"},"questionCount":{"type":"integer","minimum":3,"maximum":5}},"additionalProperties":False}}
+    ctx.register_tool(name="update_review_settings", toolset="english_companion", schema=settings_schema, handler=update_review_settings)
     ctx.register_skill(name="english-learning", path=Path(__file__).parent / "skills" / "english-learning" / "SKILL.md")

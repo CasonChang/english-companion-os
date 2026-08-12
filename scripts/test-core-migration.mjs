@@ -20,6 +20,7 @@ const rlsTestsUrl = new URL("../supabase/rls-tests.sql", import.meta.url);
 const seedUrl = new URL("../supabase/seed/dev-seed.sql", import.meta.url);
 const ingestMigrationUrl = new URL("../supabase/migrations/202608110001_ingest_session.sql", import.meta.url);
 const telegramReviewMigrationUrl = new URL("../supabase/migrations/202608120001_telegram_review.sql", import.meta.url);
+const scheduleMigrationUrl = new URL("../supabase/migrations/202608120002_review_schedule.sql", import.meta.url);
 const sessionFixtureUrl = new URL("../shared/schemas/examples/session-valid.json", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
@@ -32,6 +33,7 @@ const rlsTests = await readFile(rlsTestsUrl, "utf8");
 const seed = await readFile(seedUrl, "utf8");
 const ingestMigration = await readFile(ingestMigrationUrl, "utf8");
 const telegramReviewMigration = await readFile(telegramReviewMigrationUrl, "utf8");
+const scheduleMigration = await readFile(scheduleMigrationUrl, "utf8");
 const sessionFixture = JSON.parse(await readFile(sessionFixtureUrl, "utf8"));
 
 const db = new PGlite();
@@ -57,6 +59,8 @@ try {
   await db.exec(ingestMigration);
   await db.exec(telegramReviewMigration);
   await db.exec(telegramReviewMigration);
+  await db.exec(scheduleMigration);
+  await db.exec(scheduleMigration);
 
   const expectedTables = [
     "learning_items",
@@ -133,7 +137,14 @@ try {
   assert.equal(overridden.rows[0].result.rating,"easy");
   const eventCount=await db.query(`select count(*)::integer count from review_events where user_id='00000000-0000-0000-0000-000000000002'`);
   assert.equal(eventCount.rows[0].count,1);
-  console.log("PASS migrations, SRS, RLS, seed, ingest, and Telegram review persistence verified");
+  await db.exec(`update user_settings set timezone='UTC',review_time='20:30',last_daily_review_at=null where user_id='00000000-0000-0000-0000-000000000001'`);
+  const claim=await db.query(`select public.claim_telegram_review_schedule($1,'2026-08-10T20:35:00Z') result`,['00000000-0000-0000-0000-000000000001']);
+  assert.equal(claim.rows[0].result.action,'review');
+  const duplicateClaim=await db.query(`select public.claim_telegram_review_schedule($1,'2026-08-10T20:36:00Z') result`,['00000000-0000-0000-0000-000000000001']);
+  assert.equal(duplicateClaim.rows[0].result.reason,'already_claimed');
+  const settings=await db.query(`select public.update_telegram_review_settings($1,'Asia/Taipei','21:00',true,5) result`,['00000000-0000-0000-0000-000000000001']);
+  assert.equal(settings.rows[0].result.question_count,5);
+  console.log("PASS migrations, ingest, Telegram review persistence, and schedule claiming verified");
 } finally {
   await db.close();
 }

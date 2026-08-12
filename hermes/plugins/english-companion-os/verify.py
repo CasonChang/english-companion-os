@@ -1,7 +1,7 @@
 """Dependency-free smoke checks for the safe CLI bridge."""
 import json
 from unittest.mock import patch
-from ecos_tool import ingest_english_session, prepare_daily_review, save_review_result
+from ecos_tool import ingest_english_session, prepare_daily_review, review_schedule_tick, save_review_result
 
 assert json.loads(ingest_english_session({}))["ok"] is False
 with patch("ecos_tool.subprocess.run", side_effect=OSError("secret")):
@@ -19,3 +19,7 @@ with patch("ecos_tool.subprocess.run", return_value=review):
 result = type("Completed", (), {"stdout": '{"ok": true, "data": {"event_id": "e"}}'})()
 with patch("ecos_tool.subprocess.run", return_value=result):
     assert json.loads(save_review_result({"question": {}, "answer": "a", "evaluation": {}}))["ok"] is True
+
+schedule = type("Completed", (), {"stdout": '{"ok": true, "data": {"action": "silent"}}'})()
+with patch("ecos_tool.subprocess.run", return_value=schedule):
+    assert json.loads(review_schedule_tick({}))["ok"] is True
