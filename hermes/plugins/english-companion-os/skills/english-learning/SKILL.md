@@ -9,3 +9,8 @@ If the result requests date confirmation, ask once and retry with
 returned `memoryCandidates` entry through Hermes' native memory tool. A duplicate
 is successful and must not be retried. Never expose tool stderr, exceptions, or
 secret values, and never guess duration.
+
+When the user asks to review English, call `prepare_daily_review`. Use its
+`prompt` and `plan` to generate exactly the requested questions with Hermes' LLM,
+then ask only the first question. Never expose expected answers or rubrics to the
+user. Conversation state and scoring are handled by the next review capability.

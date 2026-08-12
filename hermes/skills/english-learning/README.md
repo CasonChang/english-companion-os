@@ -29,3 +29,11 @@ The canonical schema is mirrored at `schema/session.schema.json` so the compiled
 CLI remains self-contained when deployed outside the repository. A unit test
 requires this packaged copy to remain byte-equivalent in meaning to
 `shared/schemas/session.schema.json`.
+
+## Daily review planning
+
+`ecos-review-plan` reads the user's configured question count and builds a 3–5
+question candidate mix from overdue items, recent mistakes, fresh items, and the
+latest session focus. It excludes item/question-type pairs used in the previous
+14 days and emits a constrained prompt for Hermes' host LLM. It does not send a
+message or write review results; those belong to the conversation/scoring step.
