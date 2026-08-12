@@ -54,3 +54,11 @@ Each decision should include:
 - The Hermes package carries an identical `schema/session.schema.json` runtime
   copy so `/opt/data/skills/english-learning/dist/cli.js` is independently
   deployable; a unit test prevents drift between the two copies.
+
+## 2026-08-12 — Telegram review generation uses Hermes' host LLM
+
+- The skill deterministically selects a balanced, 14-day-deduplicated candidate
+  plan; question wording, expected answer, hint, and rubric are generated from
+  that bounded plan by Hermes' active host model.
+- This keeps model credentials in Hermes and makes selection independently
+  testable while still producing conversational, non-template questions.

@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phase 2 Dashboard is complete; Phase 3 Hermes ingestion is complete; Phase 4 Telegram review is next (T4.1).** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phase 2 Dashboard is complete; Phase 3 Hermes ingestion is complete; Phase 4 Telegram review is in progress; T4.2 conversation and scoring is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -106,7 +106,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ### Phase 4 — Telegram review
 
-- **T4.1 — Selection + generation.** Due/recent/mistake/focus candidate mix, 14-day anti-repetition query, LLM question generation with expected answer + rubric. *Accept:* simulated 2-week run shows mix ratios and zero repeats.
+- **T4.1 — Selection + generation.** ✅ Complete. Due/recent/mistake/focus candidate mix, 14-day anti-repetition query, LLM question generation with expected answer + rubric. *Accept:* simulated 2-week run shows mix ratios and zero repeats.
 - **T4.2 — Conversation loop + scoring.** Sequential Q&A, skip/stop/timeout, LLM rating → `review_events` + `apply_review_rating` semantics (service-role variant), recap message, user rating override. *Accept:* Phase 4 criteria in §P.
 - **T4.3 — Scheduling + settings chat.** Cron driven by `user_settings` (time, timezone, enabled, count); natural-language settings updates ("move my review to 21:00"); zero-due silence; 7-day-idle gentle nudge (≤1/week). *Accept:* changing the DB row changes fire time with no code edits.
 
