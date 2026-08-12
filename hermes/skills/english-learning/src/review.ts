@@ -47,7 +47,7 @@ export function selectReviewPlan(input: { due: ReviewCandidate[]; fresh: ReviewC
 }
 
 export function questionGenerationPrompt(plan: PlannedQuestion[]) {
-  return `Generate ${plan.length} short, conversational English review questions. Return JSON only as {"questions":[...]}. Each question must preserve "candidateKey" and "questionType", and contain "question", "expectedAnswer", "rubric", and "oneHint". Never use TOEIC/test language. Use the learner's evidence without inventing facts.\nCandidates:\n${JSON.stringify(plan)}`;
+  return `Generate ${plan.length} short, conversational English review questions. Return JSON only as {"questions":[...]}. Each question must preserve "candidateKey", "questionType", "learningItemId", and "mistakeCategory", and contain "question", "expectedAnswer", "rubric", and "oneHint". Never use TOEIC/test language. Use the learner's evidence without inventing facts.\nCandidates:\n${JSON.stringify(plan)}`;
 }
 
 export async function loadReviewPlan(client: SupabaseClient, userId: string, count = 4, now = new Date()) {

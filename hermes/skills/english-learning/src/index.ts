@@ -5,3 +5,5 @@ export { createHermesSupabase, formatIngestConfirmation, ingestSession } from ".
 export type { IngestResult, IngestStats } from "./ingest.js";
 export { loadReviewPlan, questionGenerationPrompt, selectReviewPlan, QUESTION_TYPES } from "./review.js";
 export type { PlannedQuestion, QuestionType, ReviewCandidate, ReviewHistory } from "./review.js";
+export { evaluationPrompt, isSkip, isStop, overrideReviewRating, ratingOverride, saveReviewResult } from "./review-session.js";
+export type { Evaluation, GeneratedQuestion, Rating } from "./review-session.js";

@@ -19,6 +19,7 @@ const rlsMigrationUrl = new URL(
 const rlsTestsUrl = new URL("../supabase/rls-tests.sql", import.meta.url);
 const seedUrl = new URL("../supabase/seed/dev-seed.sql", import.meta.url);
 const ingestMigrationUrl = new URL("../supabase/migrations/202608110001_ingest_session.sql", import.meta.url);
+const telegramReviewMigrationUrl = new URL("../supabase/migrations/202608120001_telegram_review.sql", import.meta.url);
 const sessionFixtureUrl = new URL("../shared/schemas/examples/session-valid.json", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
@@ -30,6 +31,7 @@ const rlsMigration = await readFile(rlsMigrationUrl, "utf8");
 const rlsTests = await readFile(rlsTestsUrl, "utf8");
 const seed = await readFile(seedUrl, "utf8");
 const ingestMigration = await readFile(ingestMigrationUrl, "utf8");
+const telegramReviewMigration = await readFile(telegramReviewMigrationUrl, "utf8");
 const sessionFixture = JSON.parse(await readFile(sessionFixtureUrl, "utf8"));
 
 const db = new PGlite();
@@ -53,6 +55,8 @@ try {
   await db.exec(rlsMigration);
   await db.exec(ingestMigration);
   await db.exec(ingestMigration);
+  await db.exec(telegramReviewMigration);
+  await db.exec(telegramReviewMigration);
 
   const expectedTables = [
     "learning_items",
@@ -121,7 +125,15 @@ try {
   assert.equal(duplicateIngest.rows[0].result.duplicate, true);
   const ingestCounts = await db.query(`select (select count(*)::integer from sessions where user_id = '00000000-0000-0000-0000-000000000002') sessions, (select count(*)::integer from learning_items where user_id = '00000000-0000-0000-0000-000000000002') items`);
   assert.deepEqual(ingestCounts.rows[0], { sessions: 1, items: sessionFixture.learning_items.length });
-  console.log("PASS migrations, SRS, RLS, seed, and atomic idempotent ingest verified");
+  const itemId = await db.query(`select id from learning_items where user_id='00000000-0000-0000-0000-000000000002' limit 1`);
+  const saved = await db.query(`select public.save_telegram_review_result($1,$2,null,'how_would_you_say','Question','Answer','Good answer','good') result`,["00000000-0000-0000-0000-000000000002",itemId.rows[0].id]);
+  assert.equal(saved.rows[0].result.srs_updated,true);
+  const eventId=saved.rows[0].result.event_id;
+  const overridden=await db.query(`select public.override_telegram_review_rating($1,$2,'easy') result`,["00000000-0000-0000-0000-000000000002",eventId]);
+  assert.equal(overridden.rows[0].result.rating,"easy");
+  const eventCount=await db.query(`select count(*)::integer count from review_events where user_id='00000000-0000-0000-0000-000000000002'`);
+  assert.equal(eventCount.rows[0].count,1);
+  console.log("PASS migrations, SRS, RLS, seed, ingest, and Telegram review persistence verified");
 } finally {
   await db.close();
 }
