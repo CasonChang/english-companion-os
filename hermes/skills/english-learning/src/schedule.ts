@@ -1,0 +1,5 @@
+import type {SupabaseClient} from "@supabase/supabase-js";
+export type ScheduleClaim={action:"review"|"nudge"|"silent";reason?:string;question_count?:number;timezone?:string};
+export async function claimReviewSchedule(client:SupabaseClient,userId:string,now?:Date){const {data,error}=await client.rpc("claim_telegram_review_schedule",{p_user_id:userId,...(now?{p_now:now.toISOString()}:{})});if(error)throw error;return data as ScheduleClaim}
+export async function updateReviewSettings(client:SupabaseClient,userId:string,input:{timezone?:string;reviewTime?:string;enabled?:boolean;questionCount?:number}){const {data,error}=await client.rpc("update_telegram_review_settings",{p_user_id:userId,p_timezone:input.timezone??null,p_review_time:input.reviewTime??null,p_enabled:input.enabled??null,p_question_count:input.questionCount??null});if(error)throw error;return data as {timezone:string;review_time:string;enabled:boolean;question_count:number}}
+export function scheduleMessage(claim:ScheduleClaim){if(claim.action==="nudge")return "好一陣子沒一起練英文了。今天想用幾分鐘聊聊近況嗎？ 🎧";if(claim.action==="review")return `🌆 今天有 ${claim.question_count??4} 題輕鬆英文複習。`;return null}

@@ -31,3 +31,15 @@ When the user asks to review English:
    call `override_review_rating` with the last event ID and requested rating.
 
 Never expose expected answers, rubrics, tool stderr, exceptions, or secrets.
+
+## Schedule and settings
+
+A host cron calls `review_schedule_tick` every 15 minutes. For `silent`, send
+nothing. For `nudge`, send one gentle invitation and stop. For `review`, call
+`prepare_daily_review` and begin the normal sequential review. The database
+claim prevents duplicate daily sends.
+
+When the user naturally requests a setting change (for example, 「改成晚上九點」,
+「每天五題」, or 「先暫停複習」), call `update_review_settings` with only fields
+explicitly requested. Confirm the resulting local time, timezone, enabled state,
+and question count. Never infer a timezone; ask if it is unknown.

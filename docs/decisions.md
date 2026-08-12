@@ -70,3 +70,10 @@ Each decision should include:
 - Service-role review writes use a dedicated RPC and preserve the pre-review SRS
   state, allowing one immediate rating override without corrupting the ladder.
 - Overrides expire after 15 minutes; longer-term history remains append-only.
+
+## 2026-08-12 — Review cron is a 15-minute poll with database claiming
+
+- Hermes invokes one generic tick every 15 minutes; PostgreSQL evaluates the
+  user's IANA timezone and configured local time and atomically claims the day.
+- This avoids regenerating host cron jobs when settings change and prevents
+  duplicate messages across restarts or overlapping workers.

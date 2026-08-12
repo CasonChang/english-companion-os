@@ -59,3 +59,18 @@ def _review_result_cli(payload):
         return json.dumps(result if isinstance(result, dict) and isinstance(result.get("ok"), bool) else _SAFE_FAILURE)
     except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
         return json.dumps(_SAFE_FAILURE)
+
+def review_schedule_tick(params, **_kwargs):
+    return _schedule_cli(params)
+
+def update_review_settings(params, **_kwargs):
+    return _schedule_cli({"action": "settings", **params})
+
+def _schedule_cli(payload):
+    cli = Path(os.environ.get("ECOS_REVIEW_SCHEDULE_CLI", "/opt/data/skills/english-learning/dist/schedule-cli.js"))
+    try:
+        completed = subprocess.run(["node", str(cli)], input=json.dumps(payload), text=True, capture_output=True, timeout=30, check=False)
+        result = json.loads(completed.stdout.strip())
+        return json.dumps(result if isinstance(result, dict) and isinstance(result.get("ok"), bool) else _SAFE_FAILURE)
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return json.dumps(_SAFE_FAILURE)

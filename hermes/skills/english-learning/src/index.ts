@@ -7,3 +7,6 @@ export { loadReviewPlan, questionGenerationPrompt, selectReviewPlan, QUESTION_TY
 export type { PlannedQuestion, QuestionType, ReviewCandidate, ReviewHistory } from "./review.js";
 export { evaluationPrompt, isSkip, isStop, overrideReviewRating, ratingOverride, saveReviewResult } from "./review-session.js";
 export type { Evaluation, GeneratedQuestion, Rating } from "./review-session.js";
+
+export { claimReviewSchedule, scheduleMessage, updateReviewSettings } from "./schedule.js";
+export type { ScheduleClaim } from "./schedule.js";
