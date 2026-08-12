@@ -1,6 +1,6 @@
 """User plugin for English Companion session ingestion."""
 from pathlib import Path
-from .ecos_tool import ingest_english_session, prepare_daily_review
+from .ecos_tool import ingest_english_session, override_review_rating, prepare_daily_review, save_review_result
 
 def register(ctx):
     schema = {
@@ -24,4 +24,11 @@ def register(ctx):
         "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
     }
     ctx.register_tool(name="prepare_daily_review", toolset="english_companion", schema=review_schema, handler=prepare_daily_review)
+    result_schema = {
+        "name": "save_review_result", "description": "Persist one answered Telegram review and update its SRS item atomically.",
+        "parameters": {"type":"object","properties":{"question":{"type":"object"},"answer":{"type":"string"},"evaluation":{"type":"object","properties":{"rating":{"enum":["again","hard","good","easy"]},"feedback":{"type":"string"}},"required":["rating","feedback"]}},"required":["question","answer","evaluation"],"additionalProperties":False},
+    }
+    ctx.register_tool(name="save_review_result", toolset="english_companion", schema=result_schema, handler=save_review_result)
+    override_schema = {"name":"override_review_rating","description":"Override the immediately previous Telegram review rating within 15 minutes.","parameters":{"type":"object","properties":{"eventId":{"type":"string"},"rating":{"enum":["again","hard","good","easy"]}},"required":["eventId","rating"],"additionalProperties":False}}
+    ctx.register_tool(name="override_review_rating", toolset="english_companion", schema=override_schema, handler=override_review_rating)
     ctx.register_skill(name="english-learning", path=Path(__file__).parent / "skills" / "english-learning" / "SKILL.md")

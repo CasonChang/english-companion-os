@@ -44,3 +44,18 @@ def prepare_daily_review(params, **_kwargs):
         return json.dumps(result)
     except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
         return json.dumps(_SAFE_FAILURE)
+
+def save_review_result(params, **_kwargs):
+    return _review_result_cli(params)
+
+def override_review_rating(params, **_kwargs):
+    return _review_result_cli({"action": "override", **params})
+
+def _review_result_cli(payload):
+    cli = Path(os.environ.get("ECOS_REVIEW_RESULT_CLI", "/opt/data/skills/english-learning/dist/review-result-cli.js"))
+    try:
+        completed = subprocess.run(["node", str(cli)], input=json.dumps(payload), text=True, capture_output=True, timeout=30, check=False)
+        result = json.loads(completed.stdout.strip())
+        return json.dumps(result if isinstance(result, dict) and isinstance(result.get("ok"), bool) else _SAFE_FAILURE)
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return json.dumps(_SAFE_FAILURE)

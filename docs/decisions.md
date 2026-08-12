@@ -62,3 +62,11 @@ Each decision should include:
   that bounded plan by Hermes' active host model.
 - This keeps model credentials in Hermes and makes selection independently
   testable while still producing conversational, non-template questions.
+
+## 2026-08-12 — Telegram review persistence and override
+
+- Every answer is atomically saved before Hermes advances; unasked questions
+  never create review events.
+- Service-role review writes use a dedicated RPC and preserve the pre-review SRS
+  state, allowing one immediate rating override without corrupting the ladder.
+- Overrides expire after 15 minutes; longer-term history remains append-only.
