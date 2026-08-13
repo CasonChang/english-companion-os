@@ -21,6 +21,7 @@ const seedUrl = new URL("../supabase/seed/dev-seed.sql", import.meta.url);
 const ingestMigrationUrl = new URL("../supabase/migrations/202608110001_ingest_session.sql", import.meta.url);
 const telegramReviewMigrationUrl = new URL("../supabase/migrations/202608120001_telegram_review.sql", import.meta.url);
 const scheduleMigrationUrl = new URL("../supabase/migrations/202608120002_review_schedule.sql", import.meta.url);
+const weeklyScheduleMigrationUrl = new URL("../supabase/migrations/202608130001_weekly_report_schedule.sql", import.meta.url);
 const sessionFixtureUrl = new URL("../shared/schemas/examples/session-valid.json", import.meta.url);
 const coreMigration = (await readFile(migrationUrl, "utf8")).replace(
   "create extension if not exists pgcrypto;",
@@ -34,6 +35,7 @@ const seed = await readFile(seedUrl, "utf8");
 const ingestMigration = await readFile(ingestMigrationUrl, "utf8");
 const telegramReviewMigration = await readFile(telegramReviewMigrationUrl, "utf8");
 const scheduleMigration = await readFile(scheduleMigrationUrl, "utf8");
+const weeklyScheduleMigration = await readFile(weeklyScheduleMigrationUrl, "utf8");
 const sessionFixture = JSON.parse(await readFile(sessionFixtureUrl, "utf8"));
 
 const db = new PGlite();
@@ -61,6 +63,8 @@ try {
   await db.exec(telegramReviewMigration);
   await db.exec(scheduleMigration);
   await db.exec(scheduleMigration);
+  await db.exec(weeklyScheduleMigration);
+  await db.exec(weeklyScheduleMigration);
 
   const expectedTables = [
     "learning_items",
@@ -144,6 +148,12 @@ try {
   assert.equal(duplicateClaim.rows[0].result.reason,'already_claimed');
   const settings=await db.query(`select public.update_telegram_review_settings($1,'Asia/Taipei','21:00',true,5) result`,['00000000-0000-0000-0000-000000000001']);
   assert.equal(settings.rows[0].result.question_count,5);
+  await db.exec(`update user_settings set timezone='UTC',weekly_report_day=0,weekly_report_time='20:00',weekly_report_enabled=true where user_id='00000000-0000-0000-0000-000000000001'`);
+  const weeklyClaim=await db.query(`select public.claim_weekly_report_schedule($1,'2026-08-16T20:05:00Z') result`,['00000000-0000-0000-0000-000000000001']);
+  assert.equal(weeklyClaim.rows[0].result.action,'report');
+  assert.equal(weeklyClaim.rows[0].result.week_start,'2026-08-10');
+  const duplicateWeeklyClaim=await db.query(`select public.claim_weekly_report_schedule($1,'2026-08-16T20:06:00Z') result`,['00000000-0000-0000-0000-000000000001']);
+  assert.equal(duplicateWeeklyClaim.rows[0].result.reason,'already_claimed');
   console.log("PASS migrations, ingest, Telegram review persistence, and schedule claiming verified");
 } finally {
   await db.close();

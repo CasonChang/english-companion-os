@@ -117,7 +117,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ### Phase 6 — Weekly reports & polish
 
-- **T6.1 — Weekly report generation.** Stats computation, narrative + `suggested_focus`, upsert `weekly_reports`, Telegram summary in the §K format, cron per settings. *Accept:* matches hand-computed stats for seed + real data.
+- **T6.1 — Weekly report generation.** ✅ Implementation complete; hosted cron verification pending. Stats computation, narrative + `suggested_focus`, upsert `weekly_reports`, Telegram summary in the §K format, cron per settings. *Accept:* matches hand-computed stats for seed + real data.
 - **T6.2 — Weekly page.** List + detail with previous-week deltas; Home link to latest. *Accept:* renders the T6.1 row faithfully.
 - **T6.3 — Polish pass.** Shadowing Replay in session detail, streak edge cases (timezone, empty weeks), empty/error states audit, dark-mode audit, docs sync, update this file's phase pointer to "V1 complete". *Accept:* §P Phase 6 criteria.
 

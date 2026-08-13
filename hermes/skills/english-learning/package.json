@@ -22,6 +22,7 @@
     "ecos-ingest": "dist/cli.js",
     "ecos-review-plan": "dist/review-cli.js",
     "ecos-review-result": "dist/review-result-cli.js",
-    "ecos-review-schedule": "dist/schedule-cli.js"
+    "ecos-review-schedule": "dist/schedule-cli.js",
+    "ecos-weekly-report": "dist/weekly-report-cli.js"
   }
 }

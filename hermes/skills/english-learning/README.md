@@ -37,3 +37,12 @@ question candidate mix from overdue items, recent mistakes, fresh items, and the
 latest session focus. It excludes item/question-type pairs used in the previous
 14 days and emits a constrained prompt for Hermes' host LLM. It does not send a
 message or write review results; those belong to the conversation/scoring step.
+
+## Weekly report
+
+Run `ecos-weekly-report` from Hermes' shared 15-minute cron. Its atomic schedule
+claim reads the enabled flag, weekday, time, and timezone from `user_settings`,
+then computes the previous ISO week's speaking, collection, review, mistake,
+and streak statistics, upserts the shared `weekly_reports` row, and returns the
+compact Telegram message. `ECOS_DASHBOARD_URL` is optional and adds the full
+report link; it is a public application URL, not a secret.

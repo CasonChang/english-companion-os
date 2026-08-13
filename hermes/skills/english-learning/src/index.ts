@@ -10,3 +10,5 @@ export type { Evaluation, GeneratedQuestion, Rating } from "./review-session.js"
 
 export { claimReviewSchedule, scheduleMessage, updateReviewSettings } from "./schedule.js";
 export type { ScheduleClaim } from "./schedule.js";
+export { buildWeeklyReport, claimWeeklyReportSchedule, generateWeeklyReport, reportPeriod, weeklyTelegramMessage } from "./weekly-report.js";
+export type { WeeklyReport, WeeklyReportStats, WeeklyScheduleClaim } from "./weekly-report.js";
