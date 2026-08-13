@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phases 2–3 are complete; Phase 4 is ready for hosted cron verification; Phase 5 web review is in progress. T5.1 question generation is complete, and T5.2 card flow is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**Phases 2–3 and Phase 5 web review are complete; Phase 4 is ready for hosted cron verification; Phase 6 weekly reports is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
 
 ## 7. Definition of Done (every task)
 
@@ -113,7 +113,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 ### Phase 5 — Interactive web review (parallel with Phase 4)
 
 - **T5.1 — Question builder.** ✅ Complete. Client-side generation of the four §J types from `v_due_reviews` + recent mistakes; per-mix de-dup. *Accept:* unit tests over seed data produce valid, varied cards.
-- **T5.2 — Card flow UI.** Card → reveal → self-rate → next → recap; per-card persistence (`review_events` + `apply_review_rating()`); resume-safe; Home CTA. *Accept:* Phase 5 criteria in §P.
+- **T5.2 — Card flow UI.** ✅ Complete. Card → reveal → self-rate → next → recap; per-card persistence (`review_events` + `apply_review_rating()`); resume-safe; Home CTA. *Accept:* Phase 5 criteria in §P.
 
 ### Phase 6 — Weekly reports & polish
 
