@@ -32,6 +32,13 @@ When the user asks to review English:
 
 Never expose expected answers, rubrics, tool stderr, exceptions, or secrets.
 
+## Weekly report
+
+A host cron calls `weekly_report_tick` every 15 minutes. If its `message` is
+null, send nothing. Otherwise send the returned `message` unchanged. The tool
+atomically checks the database schedule, generates and saves the report, and
+prevents duplicate weekly sends.
+
 ## Schedule and settings
 
 A host cron calls `review_schedule_tick` every 15 minutes. For `silent`, send

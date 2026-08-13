@@ -1,6 +1,6 @@
 """User plugin for English Companion session ingestion."""
 from pathlib import Path
-from .ecos_tool import ingest_english_session, override_review_rating, prepare_daily_review, review_schedule_tick, save_review_result, update_review_settings
+from .ecos_tool import ingest_english_session, override_review_rating, prepare_daily_review, review_schedule_tick, save_review_result, update_review_settings, weekly_report_tick
 
 def register(ctx):
     schema = {
@@ -35,4 +35,6 @@ def register(ctx):
     ctx.register_tool(name="review_schedule_tick", toolset="english_companion", schema=tick_schema, handler=review_schedule_tick)
     settings_schema = {"name":"update_review_settings","description":"Update explicitly requested daily review settings. Omit values the user did not change.","parameters":{"type":"object","properties":{"timezone":{"type":"string"},"reviewTime":{"type":"string","pattern":"^([01]?[0-9]|2[0-3]):[0-5][0-9]$"},"enabled":{"type":"boolean"},"questionCount":{"type":"integer","minimum":3,"maximum":5}},"additionalProperties":False}}
     ctx.register_tool(name="update_review_settings", toolset="english_companion", schema=settings_schema, handler=update_review_settings)
+    weekly_schema = {"name":"weekly_report_tick","description":"Atomically check the configured weekly schedule, generate and save a due report, and return its Telegram message.","parameters":{"type":"object","properties":{},"additionalProperties":False}}
+    ctx.register_tool(name="weekly_report_tick", toolset="english_companion", schema=weekly_schema, handler=weekly_report_tick)
     ctx.register_skill(name="english-learning", path=Path(__file__).parent / "skills" / "english-learning" / "SKILL.md")

@@ -19,6 +19,20 @@ A personal English speaking companion system built around three cooperating part
 
 If you are an AI coding agent (Codex Cloud, Claude Code, etc.) starting work in this repository, **read [`CODEX_HANDOFF.md`](CODEX_HANDOFF.md) first**. It tells you what this product is, what to build, in what order, and what is explicitly out of scope.
 
+### Owner workflow preferences (persistent)
+
+- Continue with the next task in `CODEX_HANDOFF.md` without asking routine
+  implementation questions. Ask only when the owner must operate Supabase or
+  send a setup/test message to Hermes.
+- When Supabase action is required, give the owner a **direct clickable GitHub
+  link to the exact SQL file**—never ask them to browse the repository for it.
+- When Hermes action is required, provide one complete copy-paste prompt and a
+  direct link to its prompt file. Keep secrets out of prompts and chat.
+- After checks pass, commit and push directly to `main`; do not wait for a PR or
+  ask the owner to merge. If the environment cannot push, state the exact block.
+- In the final response, put required owner actions in a clearly labeled,
+  numbered section with links and copy-paste content.
+
 ## Repository map
 
 | Path | Purpose |
@@ -27,6 +41,7 @@ If you are an AI coding agent (Codex Cloud, Claude Code, etc.) starting work in 
 | `CODEX_HANDOFF.md` | Standalone onboarding + task breakdown for implementation agents |
 | `prompts/english-coach-project-prompt.md` | Production prompt to paste into the ChatGPT Project instructions |
 | `prompts/recover-current-session-json.md` | One-time prompt for exporting a conversation that happened before setup |
+| `prompts/hermes-agent-weekly-report-setup.md` | Copy-paste Hermes update prompt for scheduled weekly reports |
 | `apps/dashboard/` | (Phase 2+) React + Vite dashboard, deployed to GitHub Pages |
 | `supabase/` | (Phase 1+) SQL migrations, RLS policies, seed data |
 | `hermes/` | (Phase 3+) Hermes English Learning skill: ingestion, reviews, reports |

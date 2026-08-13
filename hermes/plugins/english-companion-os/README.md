@@ -14,3 +14,8 @@ Configure the Hermes host scheduler to invoke `review_schedule_tick` every 15
 minutes. The database owns the actual local time, timezone, enabled state,
 duplicate claim, idle-nudge throttle, and question count, so the host cron must
 not hard-code a daily time.
+
+The same scheduler should invoke `weekly_report_tick` every 15 minutes. Send
+nothing when its returned `message` is null; otherwise send that message to the
+configured learning chat. The database owns the weekly weekday, time, timezone,
+and duplicate claim.

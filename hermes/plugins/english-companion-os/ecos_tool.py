@@ -66,6 +66,19 @@ def review_schedule_tick(params, **_kwargs):
 def update_review_settings(params, **_kwargs):
     return _schedule_cli({"action": "settings", **params})
 
+def weekly_report_tick(params, **_kwargs):
+    """Claim and generate a weekly report only when the DB schedule is due."""
+    del params
+    cli = Path(os.environ.get("ECOS_WEEKLY_REPORT_CLI", "/opt/data/skills/english-learning/dist/weekly-report-cli.js"))
+    try:
+        completed = subprocess.run(["node", str(cli)], text=True, capture_output=True, timeout=60, check=False)
+        result = json.loads(completed.stdout.strip())
+        if not isinstance(result, dict) or not isinstance(result.get("ok"), bool):
+            return json.dumps(_SAFE_FAILURE)
+        return json.dumps(result)
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return json.dumps(_SAFE_FAILURE)
+
 def _schedule_cli(payload):
     cli = Path(os.environ.get("ECOS_REVIEW_SCHEDULE_CLI", "/opt/data/skills/english-learning/dist/schedule-cli.js"))
     try:
