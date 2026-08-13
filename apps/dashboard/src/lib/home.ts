@@ -26,10 +26,11 @@ export type HomeData = {
   weekSessions: number;
   weekItems: number;
   weeklyStreak: number;
+  latestReportWeek: string | null;
 };
 
 export async function loadHomeData(): Promise<HomeData> {
-  const [settingsResult, dueResult, sessionResult, activityResult] = await Promise.all([
+  const [settingsResult, dueResult, sessionResult, activityResult, reportResult] = await Promise.all([
     supabase.from("user_settings").select("agent_name").maybeSingle(),
     supabase.from("v_due_reviews").select("id", { count: "exact", head: true }),
     supabase
@@ -43,10 +44,11 @@ export async function loadHomeData(): Promise<HomeData> {
       .from("v_weekly_activity")
       .select("week_start,total_minutes,session_count,new_items,reviews_done")
       .order("week_start", { ascending: false })
-      .limit(8)
+      .limit(8),
+    supabase.from("weekly_reports").select("week_start").order("week_start", { ascending: false }).limit(1).maybeSingle()
   ]);
 
-  const error = settingsResult.error ?? dueResult.error ?? sessionResult.error ?? activityResult.error;
+  const error = settingsResult.error ?? dueResult.error ?? sessionResult.error ?? activityResult.error ?? reportResult.error;
   if (error) throw error;
 
   const activity = (activityResult.data ?? []) as WeeklyActivity[];
@@ -58,6 +60,7 @@ export async function loadHomeData(): Promise<HomeData> {
     weeklyActivity: [...activity].reverse(),
     weekSessions: thisWeek?.session_count ?? 0,
     weekItems: thisWeek?.new_items ?? 0,
-    weeklyStreak: calculateWeeklyStreak(activity)
+    weeklyStreak: calculateWeeklyStreak(activity),
+    latestReportWeek: reportResult.data?.week_start ?? null
   };
 }

@@ -13,6 +13,8 @@ import { MistakeCategoryPage } from "./pages/MistakeCategoryPage";
 import { MistakesPage } from "./pages/MistakesPage";
 import { ProgressPage } from "./pages/ProgressPage";
 import { ReviewPage } from "./pages/ReviewPage";
+import { WeeklyDetailPage } from "./pages/WeeklyDetailPage";
+import { WeeklyPage } from "./pages/WeeklyPage";
 
 export function App() {
   return (
@@ -29,7 +31,8 @@ export function App() {
           <Route path="/mistakes/:category" element={<MistakeCategoryPage />} />
           <Route path="/progress" element={<ProgressPage />} />
           <Route path="/review" element={<ReviewPage />} />
-          <Route path="/weekly" element={<PlaceholderPage kind="weekly" />} />
+          <Route path="/weekly" element={<WeeklyPage />} />
+          <Route path="/weekly/:weekStart" element={<WeeklyDetailPage />} />
           <Route path="/more" element={<PlaceholderPage kind="more" />} />
         </Route>
       </Route>

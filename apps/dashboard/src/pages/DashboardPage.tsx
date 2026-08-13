@@ -46,6 +46,7 @@ export function DashboardPage() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-mint">{t("Current focus")}</p>
           <h2 className="mt-5 text-2xl font-semibold leading-snug">{focus ?? (locale === "zh-TW" ? "繼續培養自然的英文說話節奏。" : "Keep building a natural speaking rhythm.")}</h2>
           <p className="mt-3 text-sm leading-6 text-slate-400">{locale === "zh-TW" ? "下次 GPT-Live 對話時，試著把這個重點用出來。" : "Bring this into your next GPT-Live conversation."}</p>
+          {data.latestReportWeek && <Link to={`/weekly/${data.latestReportWeek}`} className="mt-5 inline-flex text-sm font-semibold text-mint hover:underline">{locale === "zh-TW" ? "查看最新週報 →" : "View latest report →"}</Link>}
         </article>
 
         <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
