@@ -61,7 +61,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 ## 6. Current phase
 
-**Phases 2–5 are complete; hosted Phase 4 and weekly-report scheduling are verified; Phase 6 polish is next.** The hosted Supabase migrations are installed and the first real GPT-Live session has been imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P. Work phases in order; within a phase, tasks below are sized for one PR each. Update this section's phase pointer when a phase completes.
+**V1 implementation is complete.** Hosted daily-review and weekly-report scheduling are verified; the remaining acceptance check is observing one real scheduled weekly report after a full week of usage. The hosted Supabase migrations are installed and real GPT-Live sessions can be imported. Phases and acceptance criteria: `docs/MASTER_PLAN.md` §P.
 
 ## 7. Definition of Done (every task)
 
@@ -119,7 +119,7 @@ ask for it when building the settings/seed flow; it goes into `user_settings`.
 
 - **T6.1 — Weekly report generation.** ✅ Complete; hosted scheduler discovery and silent smoke run verified. Stats computation, narrative + `suggested_focus`, upsert `weekly_reports`, Telegram summary in the §K format, cron per settings. *Accept:* matches hand-computed stats for seed + real data.
 - **T6.2 — Weekly page.** ✅ Complete. List + detail with previous-week deltas; Home link to latest. *Accept:* renders the T6.1 row faithfully.
-- **T6.3 — Polish pass.** Shadowing Replay in session detail, streak edge cases (timezone, empty weeks), empty/error states audit, dark-mode audit, docs sync, update this file's phase pointer to "V1 complete". *Accept:* §P Phase 6 criteria.
+- **T6.3 — Polish pass.** ✅ Complete. Shadowing Replay in session detail, streak edge cases (timezone, empty weeks), empty/error states audit, dark-mode audit, docs sync, update this file's phase pointer to "V1 complete". *Accept:* §P Phase 6 criteria.
 
 ## 9. Working agreements
 

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { EmptyState } from "../components/EmptyState";
 import { LoadingSkeleton } from "../components/LoadingSkeleton";
+import { ShadowingReplay } from "../components/ShadowingReplay";
 import { loadSession, type SessionDetail } from "../lib/sessions";
 
 function Section({ title, count, children }: { title: string; count?: number; children: ReactNode }) {
@@ -30,7 +31,7 @@ export function SessionDetailPage() {
     <Section title="Corrections" count={corrections.length}><div className="space-y-4">{corrections.map((mistake) => <article key={mistake.id} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0 dark:border-white/10"><span className="rounded-full bg-coral/15 px-2.5 py-1 text-xs font-semibold text-orange-800 dark:text-coral">{label(mistake.category)}</span><p className="mt-3 text-sm text-red-700 line-through decoration-red-300 dark:text-red-300">{mistake.original}</p>{mistake.corrected && <p className="mt-1 font-medium text-emerald-800 dark:text-mint">{mistake.corrected}</p>}{mistake.explanation && <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{mistake.explanation}</p>}</article>)}</div></Section>
     {recurring.length > 0 && <Section title="Recurring patterns" count={recurring.length}><div className="space-y-3">{recurring.map((mistake) => <div key={mistake.id} className="rounded-2xl bg-coral/10 p-4"><p className="text-xs font-bold uppercase text-orange-800 dark:text-coral">{label(mistake.category)}</p><p className="mt-2 font-medium">“{mistake.original}”</p><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{mistake.explanation}</p></div>)}</div></Section>}
     {session.pronunciation_notes.length > 0 && <Section title="Pronunciation" count={session.pronunciation_notes.length}>{session.pronunciation_notes.map((note) => <p key={note.word_or_sound}><strong>{note.word_or_sound}</strong> — {note.note}</p>)}</Section>}
-    {session.shadowing.length > 0 && <Section title="Shadowing" count={session.shadowing.length}><ol className="space-y-3">{session.shadowing.map((line, index) => <li key={line} className="flex gap-3"><span className="text-sm font-bold text-emerald-700 dark:text-mint">{index + 1}</span><span>{line}</span></li>)}</ol></Section>}
+    {session.shadowing.length > 0 && <Section title="Shadowing" count={session.shadowing.length}><div className="mb-5"><ShadowingReplay lines={session.shadowing}/></div><ol className="space-y-3">{session.shadowing.map((line, index) => <li key={line} className="flex gap-3"><span className="text-sm font-bold text-emerald-700 dark:text-mint">{index + 1}</span><span>{line}</span></li>)}</ol></Section>}
     {session.next_session_focus && <section className="rounded-[1.5rem] bg-ink p-6 text-white"><p className="text-xs font-bold uppercase tracking-[0.2em] text-mint">Next focus</p><p className="mt-3 text-xl font-semibold leading-8">{session.next_session_focus}</p></section>}
   </div>;
 }

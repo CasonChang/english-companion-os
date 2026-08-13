@@ -13,4 +13,8 @@ describe("calculateWeeklyStreak", () => {
   it("returns zero when the last practice is older than the previous week", () => {
     expect(calculateWeeklyStreak([week("2026-07-20")], new Date("2026-08-10T12:00:00Z"))).toBe(0);
   });
+
+  it("counts from the previous week when the current week is still empty", () => {
+    expect(calculateWeeklyStreak([week("2026-08-03"), week("2026-07-27")], new Date("2026-08-10T00:30:00-07:00"))).toBe(2);
+  });
 });
